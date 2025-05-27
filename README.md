@@ -1,3 +1,3 @@
 Install:
 bash install_2_configs_vless_tcp_xtls_ubuntu24_04.sh
-:)
+

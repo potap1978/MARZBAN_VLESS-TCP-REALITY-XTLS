@@ -1,0 +1,107 @@
+{
+  "log": {
+    "loglevel": "info"
+  },
+  "inbounds": [
+    {
+      "tag": "VLESS TCP REALITY",
+      "listen": "0.0.0.0",
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "show": false,
+          "dest": "web.telegram.org:443",
+          "xver": 0,
+          "serverNames": [
+            "web.telegram.org"
+          ],
+          "privateKey": "MMX7m0Mj3faUstoEm5NBdegeXkHG6ZB78xzBv2n3ZUA",
+          "shortIds": [
+            "",
+            "6ba85179e30d4fc2"
+          ]
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+         {
+            "tag": "Shadowsocks TCP",
+            "listen": "0.0.0.0",
+            "port": 1080,
+            "protocol": "shadowsocks",
+            "settings": {
+                "clients": [],
+                "network": "tcp,udp"
+            }
+        }
+
+
+
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "DIRECT"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "TORRENT"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "BLOCK"
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "outboundTag": "DIRECT",
+        "domain": [
+          "full:cp.cloudflare.com",
+          "domain:connectivitycheck.gstatic.com",
+          "domain:captive.apple.com",
+          "full:detectportal.firefox.com",
+          "domain:networkcheck.kde.org",
+          "full:*.gstatic.com"
+        ],
+        "type": "field"
+      },
+      {
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "BLOCK",
+        "type": "field"
+      },
+      {
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "BLOCK",
+        "type": "field"
+      },
+      {
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "TORRENT",
+        "type": "field"
+      }
+    ]
+  }
+}
